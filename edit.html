@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Note - Notes App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-pencil-square"></i> Edit Note</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">
+                            <i class="bi bi-type-h1"></i> Title
+                        </label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ note.title }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">
+                            <i class="bi bi-pencil-square"></i> Content (Markdown supported)
+                        </label>
+                        <textarea class="form-control" id="content" name="content" rows="10" required>{{ note.content }}</textarea>
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle"></i> You can use Markdown syntax for formatting
+                        </small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">
+                            <i class="bi bi-folder"></i> Category
+                        </label>
+                        <select class="form-select" id="category" name="category_id">
+                            <option value="">No Category</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}" {% if note.category_id == category.id %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">
+                            <i class="bi bi-tags"></i> Tags (comma-separated)
+                        </label>
+                        <input type="text" class="form-control" id="tags" name="tags" 
+                               value="{{ note.tags }}" placeholder="e.g., important, todo, project">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="is_public" name="is_public"
+                               {% if note.is_public %}checked{% endif %}>
+                        <label class="form-check-label" for="is_public">
+                            <i class="bi bi-globe"></i> Make this note public
+                        </label>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Update Note
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
